@@ -1,0 +1,17 @@
+body{
+    padding: 0px;
+    margin: 0px;
+}
+
+.login-wrap{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.big-banner{
+    background: url('./images/fly_background_dark.png');
+    background-position: center;
+    background-size: cover;
+}
+
+
