@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+<body class="jumbotron big-banner text-light">
+    <div class="login-wrap row d-flex justify-content-center text-center">
+        <h1>Fly Flippers</h1>
+        <div class="form-group col-md-3">   
+            <h2>Register</h2>     
+            <form action="/process" method="POST" class="d-inline-flex flex-column">
+                {% csrf_token %}
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" id="first_name"><br>
+
+                <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" id="last_name"><br>
+
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email"><br>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password"><br>
+
+                <label for="confirm">Confirm Password</label>
+                <input type="password" name="confirm" id="confirm"><br>
+
+                <input class="btn btn-primary" type="submit" value="Register"><br>
+
+                
+            </form>
+        </div>
+
+        <div class="form-group col-md-3">
+            <h2>Login</h2>
+            <form action="/login" method="POST" class="d-inline-flex flex-column">
+                {% csrf_token %}
+                <label for="logemail">Email</label>
+                <input type="text" name="logemail" id="logemail"><br>
+
+                <label for="logpassword">Password</label>
+                <input type="password" name="logpassword" id="logpassword"><br>
+
+                <input class="btn btn-primary" type="submit" value="Log In">
+            </form>
+        </div>
+        <footer>
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2021 Copyright:
+            <a href="https://mdbootstrap.com/"> flyflippers.com</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    </div>    
+</body>
+</html>

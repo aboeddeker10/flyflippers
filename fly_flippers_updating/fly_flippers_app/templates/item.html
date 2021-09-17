@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Item Details Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h3>Hello {{request.session.name}}! Read about this item!</h3>
+    <a href="/dashboard">Dashboard |</a>
+    <a href="/logout">Logout</a>
+
+    <p>{{current_item.name}}</p>
+    <div class="my_border">
+        <p>Description: {{current_item.description}}</p>
+        <p>Price: {{current_item.price}}</p>
+        <p>Condition: {{current_item.condition}}</p>
+        <p>Location: {{current_item.location}}</p>
+        <p>Image: {{current_item.image}}</p>
+        <p>Created by: {{current_user.first_name}}</p>
+    </div>
+</body>
+</html>
