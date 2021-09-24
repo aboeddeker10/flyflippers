@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Display</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="grad-bg">
+    <h1>Gallery of Items</h1>
+    <a href="/dashboard">Back</a><br><br>
+    {% for photo in photos %}
+    {% load cloudinary %}
+    {% if photo.image %}
+        <a href="/items/{{photo.id}}"><img src="{{ photo.image.url|default_if_none:'#'}}" alt="" style="width: 150px;"></a>
+    {% else %}
+        <p></p>
+    {% endif %}
+    {% endfor %}
+</body>
+</html>

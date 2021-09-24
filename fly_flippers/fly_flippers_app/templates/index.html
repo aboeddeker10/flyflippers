@@ -14,7 +14,14 @@
     <div class="login-wrap row d-flex justify-content-center text-center">
         <h1>Fly Flippers</h1>
         <div class="form-group col-md-3">   
-            <h2>Register</h2>     
+            <h2>Register</h2>
+            {% if messages %}
+                    <ul class="messages">    
+                        {% for message in messages %}    
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                        {% endfor %}
+                    </ul>
+                {% endif %}     
             <form action="/process" method="POST" class="d-inline-flex flex-column">
                 {% csrf_token %}
                 <label for="first_name">First Name</label>

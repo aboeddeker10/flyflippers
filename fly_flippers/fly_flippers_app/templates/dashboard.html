@@ -11,10 +11,105 @@
 </head>
 <body>
     <div class="d-sm-flex p-2">
-        <div class="col-md-5 col-sm-6"><h3>Hello {{current_user.first_name}}!</h3></div>
-        <div class="col-md-5 col-sm-6"><button><a href="/trips/new">Add a new item for sale!</a></button></div>
+        <div class="col-md-5 col-sm-6"><button><a href="/items/new">Add a new item for sale!</a></button></div>
+        <div class="col-md-5 col-sm-6"><h3>{{current_user.first_name}} Dashboard</h3></div>
+        
         <div class="col-md-2"><a href="/logout">Log Out</a></div>
     </div>
 
+    <div>
+        <table class="table table-light text-dark">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Price</td>
+                    <td>Condition</td>
+                    <td>Location</td>
+                    <td>image</td>
+                    <td>Additional Actions</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                {% for item in all_items %}
+                {% if request.session.user == item.poster.id %}
+
+                    <tr>
+                        <td><a href="/items/{{item.id}}">{{ item.name }}</a></td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.condition }}</td>
+                        <td>{{ item.location }}</td>
+                        {% if item.image %}
+                            <td><img src="{{ item.image.url|default_if_none:'#'}}" alt="Images" style="width: 20px;"></td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        <td><a href="/items/edit/{{item.id}}">Edit |</a><a href="/{{item.id}}/delete"> Remove </a>
+                    </tr>
+
+
+                {% endif %}
+                {% endfor %}
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+    <h3>OTHER SELLERS</h3>
+    <div>
+
+        <table class="table table-dark text-light">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Price</td>
+                    <td>Condition</td>
+                    <td>Location</td>
+                    <td>image</td>
+                    <td>Additional Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in all_items %}
+                {% if request.session.user != item.poster.id %}  <!--item.poster.id-->
+                    <tr>
+                        <td><a href="/items/{{item.id}}">{{ item.name }}</a></td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.condition }}</td>
+                        <td>{{ item.location }}</td>
+                        {% if item.image %}
+                            <td><img src="{{ item.image.url|default_if_none:'#'}}" alt="Images" style="width: 20px;"></td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        <td><a href="/{{item.id}}/favorite">Favorite</a></td>
+                            
+                    </tr>
+
+
+                {% endif %}
+                {% endfor %}
+            <tbody>
+
+        </table>
+    </div>
+<h3>FAVORITES</h3>
+<h4><a href="/gallery">Gallery View</a></h4>
+    <div>
+        {% for item in all_items %}
+        {% if request.session.user != item.poster.id and item.favorite == True %}
+        <ul>
+            <li><a href="/items/{{item.id}}">{{ item.name }}</a> | <a href="/{{item.id}}/unfavorite">Remove</a></li>
+        </ul>
+        {% endif %}
+        {% endfor %}
+    </div>
 </body>
 </html>

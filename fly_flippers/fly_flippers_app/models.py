@@ -1,13 +1,21 @@
+
 from django.db import models
 import re
 from datetime import datetime
 from .models import *
-from django.core import validators
+from django.core.exceptions import ValidationError
 import bcrypt
-from django.db import models
 from cloudinary.models import CloudinaryField
 
 # Create your models here.
+
+CONDITION_CHOICES = [
+    ('New'),
+    ('Excellent'),
+    ('Lightly Used'),
+    ('Average'),
+    ('Below Average'),
+]
 
 class UserManager(models.Manager):
     def registration_validator(self, postData):
@@ -43,25 +51,33 @@ class UserManager(models.Manager):
                 errors1['logemail'] = "That email is already associated with another account or incorrectly entered"
 
             return errors1
+
+        
+def validateLengthGreaterThanTwo(value):
+    if len(value) < 3:
+        raise ValidationError(
+            '{} must be longer than: 2'.format(value)
+        )
+        
     
-class ItemManager(models.Manager):
-    def basic_validator(self, postData):
+# class ItemManager(models.Manager):
+#     def basic_validator(self, postData):
 
-        errors = {}
+#         errors = {}
 
-        if len(postData['destination']) < 3:
-            errors['destination'] = "The Destination field should include at least 3 Characters"
+#         if len(postData['name']) < 4:
+#             errors['name'] = "The Name of Item field should include at least 4 Characters"
 
-        if len(postData['start_date']) < 8:
-            errors['start_date'] = "Start date should be at least 8 integers in length"
+#         if len(postData['description']) < 15:
+#             errors['description'] = "The Description should be at least 15 characters in length"
             
-        if len(postData['end_date']) < 8:
-            errors['end_date'] = "End date should be at least 8 integers in length"
+#         if len(postData['condition']) < 3:
+#             errors['condition'] = "Condition should be at least 3 characters in length"
 
-        if len(postData['plan']) < 3:
-            errors['plan'] = "The Plan field should include at least 3 Characters"
+#         if len(postData['location']) < 4:
+#             errors['location'] = "The Location field should include at least 4 Characters"
 
-        return errors
+#         return errors
     
     
     
@@ -74,18 +90,24 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
-    def __repr__(self):
-        return '{}'.format(self.first_name)
+    # def __repr__(self):
+    #     return '{}'.format(self.first_name)
+    def __str__(self):
+        return self.first_name
     
 class Item(models.Model):
-    description = models.TextField()
+    name = models.CharField(max_length=100, validators=[validateLengthGreaterThanTwo])
+    description = models.TextField(validators=[validateLengthGreaterThanTwo])
     price = models.CharField(max_length=15)
-    condition = models.CharField(max_length=25)
-    location = models.CharField(max_length=45) #city, ST
+    condition = models.CharField(max_length=25, validators=[validateLengthGreaterThanTwo])
+    location = models.CharField(max_length=45, validators=[validateLengthGreaterThanTwo]) #city, ST
+    image = CloudinaryField('image', null=True)
     poster = models.ForeignKey(User, related_name="items", on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    objects = ItemManager()
+    favorite = models.BooleanField(default=False)
+    # objects = ItemManager()
     
-class Photo(models.Model):
-    image = CloudinaryField('image')
+    
+# class Photo(models.Model):
+#     image = CloudinaryField('image')

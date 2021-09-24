@@ -15,6 +15,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     # 'tailwind',
     # 'theme',
 ]
+
+
 
 # TAILWIND_APP_NAME = 'theme'
 
@@ -128,15 +131,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
+
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+    
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-CLOUDINARY_STORAGE = { 
-    'CLOUD_NAME': "fly-flippers", 
-    'API_KEY': "595596145253559", 
-    'API_SECRET': "XMSck9ZcRFPy-fq1hE3vErr9ZQw" 
-}
+
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
@@ -149,5 +155,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 cloudinary.config( 
     cloud_name = "fly-flippers", 
     api_key = "595596145253559", 
-    api_secret = "XMSck9ZcRFPy-fq1hE3vErr9ZQw",
+    api_secret = os.environ['API_SECRET'], 
 )

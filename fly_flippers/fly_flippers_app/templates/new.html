@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Item Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="jumbotron newPage-banner text-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    </nav>
+    {% load cloudinary %}
+    <div>
+        <a href="/dashboard">Got to Dashboard</a><br>
+        <a href="/logout">Log Out</a>
+        <h2>Hello {{current_user.first_name}}! Ready to list some gear?</h2>
+        
+    </div>
+    
+    <!--Attempting to add forms.py-->
+    <div class="container">
+        <div class="form-group">
+            <table>
+            <form action="/create_item" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_table }}
+            </table>
+                <input type="submit" value="Create">
+            </form>
+            
+            
+        </div>
+    </div>
+
+
+    <!--End form-->
+    <!-- <div class="form-group">
+        <form action="/create_item" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="description">Destination</label>
+                <input type="text" name="destination" id="destination"><br>
+            </div>
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" name="start_date" id="start_date" value="2021-08-14"><br>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date</label>
+                <input type="date" name="end_date" id="end_date" value="2021-08-21"><br>
+            </div>
+            <p>Plan:</p><textarea name="plan" id="plan" cols="30" rows="10"></textarea><br> -->
+            
+
+            <!-- <label for="poster">Created by</label>
+            <input type="text" name="poster" id="poster">  -->
+
+            <!-- <input type="submit" value="Add">
+            <button><a href="/dashboard">Cancel</a></button>
+
+        </form> -->
+
+        <!-- {% if messages %}
+            <ul class="messages">    
+                {% for message in messages %}    
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                {% endfor %}
+            </ul>
+        {% endif %} -->
+
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %} 
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        
+
+    </div>
+</body>
+</html>
